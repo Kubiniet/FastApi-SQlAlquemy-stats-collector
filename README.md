@@ -1,49 +1,23 @@
 # stats_collector
 
-This project was generated using fastapi_template.
-
-## Poetry
-
-This project uses poetry. It's a modern dependency management
-tool.
-
-To run the project use this set of commands:
-
-```bash
-poetry install
-poetry run python -m stats_collector
-```
-
-This will start the server on the configured host.
-
-You can find swagger documentation at `/api/docs`.
-
-You can read more about poetry here: https://python-poetry.org/
+Этот проект был создан с использованием fastapi_template.
 
 ## Docker
 
-You can start the project with docker using this command:
+Вы можете запустить проект с докером, используя эту команду:
 
 ```bash
 docker-compose -f deploy/docker-compose.yml --project-directory . up --build
 ```
 
-If you want to develop in docker with autoreload add `-f deploy/docker-compose.dev.yml` to your docker command.
-Like this:
+Если вы хотите разрабатывать в докере с автоматической перезагрузкой, добавьте `-f deploy/docker-compose.dev.yml` в свою команду докера.
+Как это:
 
 ```bash
 docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.dev.yml --project-directory . up
 ```
 
-This command exposes the web application on port 8000, mounts current directory and enables autoreload.
-
-But you have to rebuild image every time you modify `poetry.lock` or `pyproject.toml` with this command:
-
-```bash
-docker-compose -f deploy/docker-compose.yml --project-directory . build
-```
-
-## Project structure
+## Структура проекта
 
 ```bash
 $ tree "stats_collector"
@@ -64,52 +38,30 @@ stats_collector
     └── lifetime.py  # Contains actions to perform on startup and shutdown.
 ```
 
-## Configuration
+## Конфигурация
 
-This application can be configured with environment variables.
+Это приложение можно настроить с помощью переменных среды.
 
-You can create `.env` file in the root directory and place all
-environment variables here.
+Вы можете создать файл `.env` в корневом каталоге и поместить все
+переменные окружения здесь.
 
-All environment variabels should start with "STATS_COLLECTOR_" prefix.
+Все переменные среды должны начинаться с префикса «STATS_COLLECTOR_».
 
-For example if you see in your "stats_collector/settings.py" a variable named like
-`random_parameter`, you should provide the "STATS_COLLECTOR_RANDOM_PARAMETER"
-variable to configure the value. This behaviour can be changed by overriding `env_prefix` property
-in `stats_collector.settings.Settings.Config`.
+Например, если вы видите в своем «stats_collector/settings.py» переменную с именем вроде
+`random_parameter`, вы должны предоставить "STATS_COLLECTOR_RANDOM_PARAMETER"
+переменная для настройки значения. Это поведение можно изменить, переопределив свойство env_prefix.
+в `stats_collector.settings.Settings.Config`.
 
-An exmaple of .env file:
+Пример файла .env:
 ```bash
 STATS_COLLECTOR_RELOAD="True"
 STATS_COLLECTOR_PORT="8000"
 STATS_COLLECTOR_ENVIRONMENT="dev"
 ```
 
-You can read more about BaseSettings class here: https://pydantic-docs.helpmanual.io/usage/settings/
+## Миграции
 
-## Pre-commit
-
-To install pre-commit simply run inside the shell:
-```bash
-pre-commit install
-```
-
-pre-commit is very useful to check your code before publishing it.
-It's configured using .pre-commit-config.yaml file.
-
-By default it runs:
-* black (formats your code);
-* mypy (validates types);
-* isort (sorts imports in all files);
-* flake8 (spots possibe bugs);
-* yesqa (removes useless `# noqa` comments).
-
-
-You can read more about pre-commit here: https://pre-commit.com/
-
-## Migrations
-
-If you want to migrate your database, you should run following commands:
+Если вы хотите перенести свою базу данных, вам следует выполнить следующие команды:
 ```bash
 # To run all migrations untill the migration with revision_id.
 alembic upgrade "<revision_id>"
@@ -118,9 +70,9 @@ alembic upgrade "<revision_id>"
 alembic upgrade "head"
 ```
 
-### Reverting migrations
+### Отмена миграции
 
-If you want to revert migrations, you should run:
+Если вы хотите отменить миграцию,  вам следует выполнить следующие команды::
 ```bash
 # revert all migrations up to: revision_id.
 alembic downgrade <revision_id>
@@ -129,9 +81,9 @@ alembic downgrade <revision_id>
  alembic downgrade base
 ```
 
-### Migration generation
+### Генерация миграции
 
-To generate migrations you should run:
+Для создания миграции вы должны запустить:
 ```bash
 # For automatic change detection.
 alembic revision --autogenerate
@@ -141,25 +93,29 @@ alembic revision
 ```
 
 
-## Running tests
+## Запуск тестов
 
-If you want to run it in docker, simply run:
+Если вы хотите запустить его в докере, просто запустите:
 
 ```bash
 docker-compose -f deploy/docker-compose.yml --project-directory . run --rm api pytest -vv .
 docker-compose -f deploy/docker-compose.yml --project-directory . down
 ```
 
-For running tests on your local machine.
-1. you need to start a database.
+## Скриншоты
 
-I prefer doing it with docker:
-```
-docker run -p "5432:5432" -e "POSTGRES_PASSWORD=stats_collector" -e "POSTGRES_USER=stats_collector" -e "POSTGRES_DB=stats_collector" postgres:13.8-bullseye
-```
+### 1. Документация
 
+![image](https://user-images.githubusercontent.com/96630622/194137506-b06685bc-6e4e-4d2e-a050-4b40ab8bd72c.png)
 
-2. Run the pytest.
-```bash
-pytest -vv .
-```
+### 2. Метод показа статистики get()
+
+![image](https://user-images.githubusercontent.com/96630622/194137422-4e5dc1fc-9a8a-4d6c-80a7-dd8bb1a4da92.png)
+
+### 3. Метод сохранения статистики put()
+
+![image](https://user-images.githubusercontent.com/96630622/194137613-2b7f68af-c407-4d73-a774-407b375035b8.png)
+
+### 4. Метод сброса статистики delete()
+
+![image](https://user-images.githubusercontent.com/96630622/194137686-e98e3cba-5e43-49a3-a367-fcdf01c730b6.png)
